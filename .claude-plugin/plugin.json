@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "description": "Skill navigator for Claude Code. Scans your installed plugins, recommends the best skill for your task, and executes it. Just type /c.",
   "author": {
-    "name": "livev",
-    "url": "https://github.com/livev"
+    "name": "livevil7",
+    "url": "https://github.com/livevil7"
   },
-  "repository": "https://github.com/livev/claude-compass",
+  "repository": "https://github.com/livevil7/claude-compass",
   "license": "MIT",
   "keywords": [
     "claude-code",
