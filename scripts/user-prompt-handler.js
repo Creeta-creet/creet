@@ -51,9 +51,9 @@ function main() {
       process.exit(0);
     }
 
-    // Match keywords against installed skills
+    // Match keywords dynamically against cached scan results
     const customMap = config.customKeywords || null;
-    const matches = matchKeywords(message, customMap);
+    const matches = matchKeywords(message, null, customMap);
 
     // Take top match (only suggest if score is high enough)
     const MIN_SCORE = config.minMatchScore || 5;

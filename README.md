@@ -4,6 +4,8 @@
 
 Creet is a skill navigator for Claude Code by [Creeta](https://www.creeta.com). It scans your installed plugins, finds the best skill for your task, and runs it — all from a single command.
 
+Works with **any** combination of plugins. No hardcoded dependencies.
+
 ## The Problem
 
 You installed 10+ plugins. That's 50+ slash commands, MCP tools, and LSP servers. You can't remember them all, and you don't know which combination works best for your task.
@@ -11,26 +13,26 @@ You installed 10+ plugins. That's 50+ slash commands, MCP tools, and LSP servers
 ## The Solution
 
 ```
-You: /c build a login page with social auth
+You: /c build a dashboard with auth
 
 Creet — Skill Scan
-| #  | Name             | Type  | Plugin   | Domain   |
-|----|------------------|-------|----------|----------|
-| 1  | /frontend-design | Skill | f-d      | Frontend |
-| 2  | /bkend-auth      | Skill | bkit     | Auth     |
-| 3  | context7         | MCP   | context7 | Backend  |
-| 4  | typescript       | LSP   | ts-lsp   | LSP      |
-| .. | ...              | ...   | ...      | ...      |
+| #  | Name          | Type  | Plugin    | Domain   |
+|----|---------------|-------|-----------|----------|
+| 1  | /auth-setup   | Skill | plugin-a  | Auth     |
+| 2  | /ui-builder   | Skill | plugin-b  | Frontend |
+| 3  | context7      | MCP   | context7  | Docs     |
+| 4  | typescript    | LSP   | ts-tools  | LSP      |
+| .. | ...           | ...   | ...       | ...      |
 
-Total: 48 skills, 4 MCP tools, 2 LSP servers from 15 plugins
+Total: 30 skills, 3 MCP tools, 2 LSP servers from 10 plugins
 
 Creet — Recommendation
 
-> "Build a login page with social auth"
+> "Build a dashboard with auth"
 
 Which skill should I run?
-  /bkend-auth (Recommended) — Social auth logic
-  /frontend-design — Login page UI
+  /auth-setup (Recommended) — Auth logic for your app
+  /ui-builder — Dashboard UI components
   Other
 ```
 
@@ -76,14 +78,14 @@ claude --plugin-dir /path/to/creet
 
 ### Examples
 
-| You type | Creet recommends |
-|----------|-------------------|
-| `/c build a dashboard` | /frontend-design |
-| `/c review my PR` | /code-review → /commit-push-pr |
-| `/c deploy to production` | /phase-9-deployment + /sentry-setup-tracing |
-| `/c I'm new, where do I start?` | /first-claude-code |
-| `/c set up error tracking` | /sentry |
-| `/c` (no args) | Full skill inventory |
+| You type | What happens |
+| --- | --- |
+| `/c build a login page` | Recommends your best auth + frontend skills |
+| `/c review my PR` | Recommends your code review skill |
+| `/c deploy to production` | Recommends your deployment skill |
+| `/c` (no args) | Shows full skill inventory |
+
+Creet dynamically matches against whatever plugins you have installed.
 
 ## How It Works
 
@@ -96,12 +98,12 @@ claude --plugin-dir /path/to/creet
 
 Creet's skill scanner automatically detects all plugin types:
 
-| Type | Detection | Example |
-|------|-----------|---------|
-| **Skill** | `skills/*/SKILL.md` and `commands/*.md` | /commit, /pdca, /frontend-design |
-| **MCP** | `.mcp.json` (direct and mcpServers wrapper) | context7, github, supabase, playwright |
-| **LSP** | `lspServers` in `plugin.json` | typescript, intelephense (PHP) |
-| **Hybrid** | Skill + MCP in same plugin | sentry (7 skills + MCP server) |
+| Type | Detection | What it finds |
+| --- | --- | --- |
+| **Skill** | `skills/*/SKILL.md` and `commands/*.md` | Slash commands from any plugin |
+| **MCP** | `.mcp.json` (direct and wrapper formats) | MCP tool servers |
+| **LSP** | `lspServers` in `plugin.json` | Language servers |
+| **Hybrid** | Skill + MCP in same plugin | Plugins with both types |
 
 ### Scanner Details
 
@@ -111,13 +113,17 @@ Creet's skill scanner automatically detects all plugin types:
 - Auto-detects domain from 24 pattern categories
 - Hybrid plugins are marked with `hasMcp` flag
 
+### Dynamic Keyword Matching
+
+Creet builds its keyword map **dynamically** from scanner results. Each skill's trigger keywords become the matching dictionary. No hardcoded skill-to-keyword mappings — if a plugin declares triggers, Creet uses them automatically.
+
 ## Features
 
 - Auto-scans all installed plugins at session start via SessionStart hook
 - Detects Skills, MCP tools, and LSP servers from plugin cache
-- Auto-recommends skills based on keyword matching (8 languages)
+- **Zero hardcoded dependencies** — works with any plugin combination
+- Dynamic keyword matching from scanner-extracted triggers
 - Uses AskUserQuestion for interactive skill selection
-- Works with ANY combination of installed plugins
 - Compares overlapping skills and explains the difference
 - Recommends execution order for multi-skill workflows
 - Max 5 recommendations (no overwhelm)
@@ -136,12 +142,12 @@ creet/
     SKILL.md             # Main /c skill definition
   hooks/
     hooks.json           # Hook registration (SessionStart, UserPromptSubmit)
-    session-start.js     # Session startup: scan + memory + context injection
+    session-start.js     # Session startup: scan + cache + context injection
   scripts/
-    user-prompt-handler.js  # Per-message keyword matching
+    user-prompt-handler.js  # Per-message keyword matching (from cache)
   lib/
     skill-scanner.js     # Core scanner (Skills, MCP, LSP detection)
-    keyword-matcher.js   # Multi-language keyword matching
+    keyword-matcher.js   # Dynamic keyword matching (no hardcoded maps)
     memory-store.js      # Session memory persistence
     plugin-registry.js   # Known plugins registry for discovery
   creet.config.json      # Configuration
@@ -153,7 +159,7 @@ creet/
 
 ```json
 {
-  "version": "1.2.0",
+  "version": "1.3.0",
   "autoRecommend": true,
   "showReport": true,
   "minMatchScore": 5,
@@ -162,13 +168,13 @@ creet/
 }
 ```
 
-| Option           | Default | Description                                       |
-|------------------|---------|---------------------------------------------------|
-| `autoRecommend`  | `true`  | Show skill suggestions in responses               |
-| `showReport`     | `true`  | Show Creet tip line when skill matches            |
-| `minMatchScore`  | `5`     | Minimum keyword match score for recommendations   |
-| `memoryPath`     | `null`  | Custom path for memory file (null = plugin root)  |
-| `customKeywords` | `[]`    | Additional keyword-to-skill mappings              |
+| Option | Default | Description |
+| --- | --- | --- |
+| `autoRecommend` | `true` | Show skill suggestions in responses |
+| `showReport` | `true` | Show Creet tip line when skill matches |
+| `minMatchScore` | `5` | Minimum keyword match score for recommendations |
+| `memoryPath` | `null` | Custom path for memory file (null = plugin root) |
+| `customKeywords` | `[]` | Additional keyword-to-skill mappings |
 
 ## Requirements
 

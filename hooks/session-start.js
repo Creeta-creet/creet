@@ -12,7 +12,7 @@ const PLUGIN_ROOT = path.resolve(__dirname, '..');
 // Load modules
 const { scanInstalledSkills, formatSkillTable } = require(path.join(PLUGIN_ROOT, 'lib', 'skill-scanner'));
 const { loadMemory, saveMemory, recordSessionStart, formatMemorySummary } = require(path.join(PLUGIN_ROOT, 'lib', 'memory-store'));
-const { formatKeywordTable } = require(path.join(PLUGIN_ROOT, 'lib', 'keyword-matcher'));
+const { formatKeywordTable, saveScanCache } = require(path.join(PLUGIN_ROOT, 'lib', 'keyword-matcher'));
 const { KNOWN_PLUGINS } = require(path.join(PLUGIN_ROOT, 'lib', 'plugin-registry'));
 
 // Load config
@@ -30,8 +30,9 @@ try {
 
 function main() {
   try {
-    // 1. Scan installed skills
+    // 1. Scan installed skills and cache for UserPromptSubmit hook
     const skills = scanInstalledSkills();
+    saveScanCache(skills);
     const skillTable = formatSkillTable(skills);
 
     // 2. Load and update memory
@@ -41,8 +42,8 @@ function main() {
     saveMemory(memory, memoryPath);
     const memorySummary = formatMemorySummary(memory);
 
-    // 3. Build keyword table
-    const keywordTable = formatKeywordTable();
+    // 3. Build keyword table from scan results (dynamic, not hardcoded)
+    const keywordTable = formatKeywordTable(skills);
 
     // 4. Build additional context
     const additionalContext = buildAdditionalContext({
@@ -56,7 +57,7 @@ function main() {
 
     // 5. Output response
     const response = {
-      systemMessage: `Creet v1.2.0 activated - ${skills.length} skills from ${[...new Set(skills.map(s => s.plugin))].length} plugins detected`,
+      systemMessage: `Creet v1.3.0 activated - ${skills.length} skills from ${[...new Set(skills.map(s => s.plugin))].length} plugins detected`,
       hookSpecificOutput: {
         hookEventName: 'SessionStart',
         skillCount: skills.length,
@@ -70,7 +71,7 @@ function main() {
   } catch (err) {
     // Fail gracefully - don't break the session
     const fallback = {
-      systemMessage: 'Creet v1.2.0 activated (scan skipped)',
+      systemMessage: 'Creet v1.3.0 activated (scan skipped)',
       hookSpecificOutput: {
         hookEventName: 'SessionStart',
         error: err.message,
@@ -91,7 +92,7 @@ function buildAdditionalContext({ skillTable, memorySummary, keywordTable, skill
   let ctx = '';
 
   // Header
-  ctx += `# Creet v1.2.0 - Session Startup\n\n`;
+  ctx += `# Creet v1.3.0 - Session Startup\n\n`;
 
   // Skill inventory
   ctx += `## Installed Skills (Auto-Scanned)\n\n`;
@@ -156,7 +157,7 @@ function buildAdditionalContext({ skillTable, memorySummary, keywordTable, skill
 }
 
 function buildFallbackContext() {
-  return `# Creet v1.2.0 - Session Startup
+  return `# Creet v1.3.0 - Session Startup
 
 Skill scan was skipped (no plugins cache found or scan error).
 Use \`/c <request>\` to manually scan and get recommendations.
