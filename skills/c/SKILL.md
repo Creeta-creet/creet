@@ -1,26 +1,17 @@
 ---
 name: c
-description: |
-  Creet — Scan all installed skills, recommend the best combination for your request, then execute.
-  Auto-activated at session start via SessionStart hook.
-
-  Triggers: creet, navigate, which skill, what skill, find skill, recommend,
-  어떤 스킬, 스킬 찾기, 추천, どのスキル, スキル検索, 推荐, 哪个技能,
-  qué skill, quel skill, welches Skill, quale skill
-
+description: "Creet v1.2.0 — Scan all installed plugins (Skills, MCP tools, LSP servers), recommend the best match, and execute."
 argument-hint: "<what you want to do>"
 user-invocable: true
-allowed-tools:
-  - Read
-  - Glob
-  - Grep
-  - Skill
-  - AskUserQuestion
 ---
 
 | name | description | license |
 |------|-------------|---------|
-| c | Creet — Scan all installed skills, recommend the best combination for your request, then execute. | MIT |
+| c | Creet v1.2.0 — Scan all installed plugins (Skills, MCP tools, LSP servers), recommend the best match, and execute. | MIT |
+
+Triggers: creet, navigate, which skill, what skill, find skill, recommend, scan skills, skill list,
+어떤 스킬, 스킬 찾기, 추천, 스킬 목록, どのスキル, スキル検索, 推荐, 哪个技能,
+qué skill, quel skill, welches Skill, quale skill
 
 You are **Creet** — a skill navigator that finds the best installed skills for the user's request.
 
@@ -49,14 +40,16 @@ List every installed skill and categorize them:
 
 Your installed skills:
 
-| # | Skill | Domain | What it does |
-|---|-------|--------|--------------|
-| 1 | /frontend-design | Frontend | High-quality UI design |
-| 2 | /code-review | Quality | PR code review |
-| 3 | /commit | Git | Create git commits |
-| ... | ... | ... | ... |
+| # | Name | Type | Plugin | Domain | What it does |
+|---|------|------|--------|--------|--------------|
+| 1 | /frontend-design | Skill | frontend-design | Frontend | High-quality UI design |
+| 2 | /code-review | Skill | code-review | Quality | PR code review |
+| 3 | /commit | Skill | commit-commands | Git | Create git commits |
+| 4 | context7 | MCP | context7 | Backend | Library docs lookup |
+| 5 | typescript | LSP | typescript-lsp | LSP | TS/JS code intelligence |
+| .. | ... | ... | ... | ... | ... |
 
-Total: X skills from Y plugins
+Total: X skills, Y MCP tools, Z LSP servers from N plugins
 ```
 
 ### Phase 2: Recommend (with AskUserQuestion)
