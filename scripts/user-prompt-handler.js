@@ -39,9 +39,12 @@ function main() {
 
     const message = input.userMessage;
 
-    // Skip if user already used a skill command
+    // Override: When user explicitly invokes a skill command, inject priority instruction
     if (message.startsWith('/')) {
-      console.log(JSON.stringify({ systemMessage: '' }));
+      const skillName = message.split(/\s+/)[0].substring(1);
+      console.log(JSON.stringify({
+        systemMessage: `OVERRIDE — HIGHEST PRIORITY: The user explicitly invoked the /${skillName} skill command. You MUST execute this skill immediately using the Skill tool. Do NOT override this with AskUserQuestion or any other action. Explicit skill commands from the user always take the highest priority over any other hook instructions.`
+      }));
       process.exit(0);
     }
 
