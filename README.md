@@ -176,6 +176,32 @@ creet/
 | `memoryPath` | `null` | Custom path for memory file (null = plugin root) |
 | `customKeywords` | `[]` | Additional keyword-to-skill mappings |
 
+## Building Custom Skills with Creet
+
+Creet is a navigator, but you can build your own skills that take advantage of the same multi-agent patterns. Here's an example:
+
+**`design-council`** — A skill that summons all installed design agents in parallel, collects their perspectives, and synthesizes a unified design decision.
+
+```markdown
+---
+name: design-council
+description: "Summons all installed design agents in parallel and synthesizes the optimal design decision."
+user-invocable: true
+---
+
+## Phase 1 — Scan active design agents
+Use Glob to find installed agents under ~/.claude/plugins/cache/.
+
+## Phase 2 — Parallel deliberation
+Launch each agent via Task tool simultaneously.
+Each agent analyzes the task from their domain perspective.
+
+## Phase 3 — Synthesis
+Collect all agent outputs and produce a unified recommendation.
+```
+
+This pattern works for any domain: security councils, code review boards, architecture committees. Creet's scanner will automatically detect and list any such skill you install.
+
 ## Requirements
 
 - Claude Code v1.0.33+
