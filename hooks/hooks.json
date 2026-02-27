@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-hooks.json",
-  "description": "Creet v1.5.0 by Creeta - Skill Navigator for Claude Code",
+  "description": "Creet v1.6.0 by Creeta - Skill Navigator + Agent Dashboard for Claude Code",
   "hooks": {
     "SessionStart": [
       {
@@ -21,6 +21,41 @@
             "type": "command",
             "command": "node ${CLAUDE_PLUGIN_ROOT}/scripts/user-prompt-handler.js",
             "timeout": 3000
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ${CLAUDE_PLUGIN_ROOT}/hooks/pre-tool-task.js",
+            "timeout": 3000
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ${CLAUDE_PLUGIN_ROOT}/hooks/post-tool-task.js",
+            "timeout": 3000
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ${CLAUDE_PLUGIN_ROOT}/hooks/stop.js",
+            "timeout": 5000
           }
         ]
       }
