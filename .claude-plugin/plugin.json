@@ -7,8 +7,11 @@
     "email": "creet@creeta.com",
     "url": "https://www.creeta.com"
   },
+  "homepage": "https://github.com/Creeta-creet/creet",
   "repository": "https://github.com/Creeta-creet/creet",
   "license": "MIT",
+  "skills": "./skills/",
+  "hooks": "./hooks/hooks.json",
   "keywords": [
     "claude-code",
     "creet",

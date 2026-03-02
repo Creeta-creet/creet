@@ -7,21 +7,36 @@
     "email": "creet@creeta.com",
     "url": "https://www.creeta.com"
   },
+  "metadata": {
+    "description": "Creet plugin marketplace by Creeta",
+    "version": "1.0.0"
+  },
   "plugins": [
     {
       "name": "creet",
-      "description": "Skill navigator for Claude Code. Scans all installed plugins (Skills, MCP tools, LSP servers), recommends the best match for your task in 8 languages, and executes it. Type /c to start.",
+      "description": "Skill navigator for Claude Code. Scans all installed plugins (Skills, MCP tools, LSP servers), recommends the best match for your task in 8 languages, and executes it. Single (/c), parallel (/cc), or plan-first (/cp).",
       "version": "1.7.1",
       "author": {
         "name": "Creeta",
         "email": "creet@creeta.com"
       },
+      "homepage": "https://github.com/Creeta-creet/creet",
       "repository": "https://github.com/Creeta-creet/creet",
       "source": {
-        "source": "url",
-        "url": "https://github.com/Creeta-creet/creet.git"
+        "source": "github",
+        "repo": "Creeta-creet/creet",
+        "ref": "v1.7.1"
       },
+      "license": "MIT",
       "category": "productivity",
+      "tags": [
+        "skill-navigator",
+        "meta-skill",
+        "multilingual",
+        "plan-first",
+        "parallel-execution",
+        "session-hooks"
+      ],
       "keywords": [
         "creet",
         "skill-navigator",
@@ -33,7 +48,9 @@
         "productivity",
         "session-hook",
         "auto-recommend",
-        "multilingual"
+        "multilingual",
+        "plan-first",
+        "work-plan"
       ]
     }
   ]
