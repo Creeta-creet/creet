@@ -6,7 +6,7 @@
 
 - **`/cp` — Creet Plan**: New skill for plan-first execution. Generates a work plan document (작업계획서) before executing, saves it as a markdown file, presents for user approval, then executes. 7-phase workflow: Scan → Analyze → Generate Plan → Approve → Execute → Post-Exec Update. `skills/cp/SKILL.md`
 - **Plan Manager module** — Plan document file naming (`YYYY-MM-DD-slug.md`), state tracking (`plan-state.json`), slug generation (Korean/Japanese/Chinese character support), plan listing and summary. `lib/plan-manager.js`
-- **`planDir` config option** — Custom plan file directory override (default: `.creet/plans/`). `creet.config.json`
+- **`planDir` config option** — Custom plan file directory override (default: project `docs/`). `creet.config.json`
 - **`defaultPlanLanguage` config option** — Force plan document language (default: auto-detect from user). `creet.config.json`
 - **`recordPlanCreation()`** — New function in memory-store for tracking plan creation in session memory. `lib/memory-store.js`
 

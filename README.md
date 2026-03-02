@@ -109,8 +109,8 @@ Unlike `/c` and `/cc`, `/cp` generates a **work plan document** before any execu
 
 | You type | What happens |
 | --- | --- |
-| `/cp build auth with JWT` | Generates a work plan, saves to `.creet/plans/2026-02-28-jwt-auth.md`, asks for approval |
-| `/cp refactor the API layer` | Creates a step-by-step plan with matched skills, waits for your go-ahead |
+| `/cp build auth with JWT` | Generates a work plan, saves to `docs/2026-02-28-jwt-auth.md`, asks for approval |
+| `/cp refactor the API layer` | Creates a step-by-step plan, saves to `docs/`, waits for your go-ahead |
 | `/cp` (no args) | Shows full skill inventory (same as `/c`) |
 
 **When to use which:**
@@ -139,7 +139,7 @@ Unlike `/c` and `/cc`, `/cp` generates a **work plan document** before any execu
 ### `/cp` — Plan-first execution engine
 1. **Scan** — Same as `/c`
 2. **Analyze & Match** — Identifies all relevant skills with reasons
-3. **Generate Plan** — Creates a work plan document and saves to `.creet/plans/`
+3. **Generate Plan** — Creates a work plan document and saves to project `docs/`
 4. **Approve** — Presents plan for user approval (Approve / Modify / Cancel)
 5. **Execute** — Runs the approved plan (single skill or parallel agents)
 6. **Post-Exec Update** — Appends execution results to the plan file
@@ -154,7 +154,7 @@ Unlike `/c` and `/cc`, `/cp` generates a **work plan document** before any execu
 - Compares overlapping skills and explains the difference
 - Recommends execution order for multi-skill workflows
 - **Plan-first execution** — `/cp` generates a work plan document before executing, with user approval
-- Plan files saved as `YYYY-MM-DD-slug.md` in `.creet/plans/`
+- Plan files saved as `YYYY-MM-DD-slug.md` in project `docs/` (configurable via `planDir`)
 - Agent dashboard — tracks parallel Task agent lifecycle in real-time
 - Slash command priority override — `/skill-name` invokes immediately without re-recommendation
 - Max 5 recommendations (no overwhelm)
@@ -174,7 +174,9 @@ Unlike `/c` and `/cc`, `/cp` generates a **work plan document** before any execu
   "memoryPath": null,
   "customKeywords": [],
   "planDir": null,
-  "defaultPlanLanguage": null
+  "defaultPlanLanguage": null,
+  "saveSynthesisResults": true,
+  "resultsDir": null
 }
 ```
 
@@ -185,8 +187,10 @@ Unlike `/c` and `/cc`, `/cp` generates a **work plan document** before any execu
 | `minMatchScore` | `5` | Minimum keyword match score for recommendations |
 | `memoryPath` | `null` | Custom path for memory file (null = `~/.claude/creet/`) |
 | `customKeywords` | `[]` | Additional keyword-to-skill mappings |
-| `planDir` | `null` | Custom plan file directory (null = `.creet/plans/`) |
+| `planDir` | `null` | Custom plan file directory (null = project `docs/`) |
 | `defaultPlanLanguage` | `null` | Force plan document language (null = auto-detect) |
+| `saveSynthesisResults` | `true` | Save /cc synthesis results to `.creet/results/` |
+| `resultsDir` | `null` | Custom results directory (null = `.creet/results/`) |
 
 ## Building Custom Skills with Creet
 

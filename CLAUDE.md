@@ -40,7 +40,7 @@ Scans all installed plugins (Skills, MCP tools, LSP servers), recommends the bes
 | Memory Store | `memory-store.js` | `loadMemory()`, `saveMemory()`, `recordSessionStart()`, `recordSkillUsage()`, `recordPlanCreation()` | Persists at `~/.claude/creet/.creet-memory.json`. Usage counts, recent skills, plan history |
 | Plugin Registry | `plugin-registry.js` | `searchRegistry()`, `KNOWN_PLUGINS` | 60+ known plugins. Suggests installable plugins when no match found |
 | Agent Tracker | `agent-tracker.js` | `initSession()`, `registerAgent()`, `completeAgent()`, `endSession()` | Tracks Task agent lifecycle in `.creet/agent-dashboard.json`. Atomic writes, error logs |
-| Plan Manager | `plan-manager.js` | `generateSlug()`, `generateFileName()`, `savePlanState()`, `loadPlanState()`, `listPlans()` | Plan file naming (`YYYY-MM-DD-slug.md`), state tracking at `.creet/plan-state.json` |
+| Plan Manager | `plan-manager.js` | `getPlansDir()`, `ensurePlansDir()`, `generateSlug()`, `generateFileName()`, `generatePlanId()`, `savePlanState()`, `loadPlanState()`, `listPlans()`, `formatPlanSummary()`, `generatePlanContent()`, `parsePlanFrontmatter()`, `updatePlanStatus()`, `validatePlanStructure()`, `REQUIRED_SECTIONS` | Plan file naming (`YYYY-MM-DD-slug.md`), document generation (4-lang headers), YAML frontmatter parsing, status lifecycle management, state tracking at `.creet/plan-state.json` |
 
 ## Folder Structure
 
@@ -91,7 +91,7 @@ creet/
 | `minMatchScore` | `5` | Minimum keyword match score for auto-suggestions |
 | `memoryPath` | `null` | Custom memory file path (null = `~/.claude/creet/`) |
 | `customKeywords` | `[]` | Additional keyword-to-skill mappings |
-| `planDir` | `null` | Custom plan file directory (null = `.creet/plans/`) |
+| `planDir` | `null` | Custom plan file directory (null = project `docs/`) |
 | `defaultPlanLanguage` | `null` | Force plan language (null = auto-detect from user) |
 | `saveSynthesisResults` | `true` | Save /cc synthesis results to .creet/results/ |
 | `resultsDir` | `null` | Custom results directory (null = `.creet/results/`) |
@@ -113,7 +113,8 @@ creet/
 | `.creet-memory.json` | `~/.claude/creet/` | Session memory (usage counts, history) |
 | `agent-dashboard.json` | `.creet/` (project root) | Agent lifecycle tracking |
 | `plan-state.json` | `.creet/` (project root) | Plan status tracking (draft→approved→completed) |
-| `*.md` plan files | `.creet/plans/` | Work plan documents (`YYYY-MM-DD-slug.md`) |
+| `*.md` plan files | `docs/` (project root) | Work plan documents (`YYYY-MM-DD-slug.md`). Config `planDir` overrides |
+| `*.md` synthesis files | `.creet/results/` | `/cc` synthesis results (when `saveSynthesisResults` is true) |
 
 ## Languages
 

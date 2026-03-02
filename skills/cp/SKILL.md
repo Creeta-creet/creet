@@ -46,10 +46,9 @@ Analyze the user's request and identify all matching skills:
 
 Create a work plan document following the template at `templates/plan.template.md`. Save it using the **Write tool** with filename `YYYY-MM-DD-{slug}.md`.
 
-**Save location priority:**
-1. `creet.config.json`의 `planDir` (설정 시 최우선)
-2. 프로젝트의 `docs/` 폴더 (존재하면 자동 사용)
-3. `.creet/plans/` (폴백)
+**Save location:**
+1. `creet.config.json`의 `planDir` (설정 시 우선)
+2. 프로젝트의 `docs/` 폴더 (기본값, 없으면 자동 생성)
 
 **File naming rules:**
 - Date: today's date in `YYYY-MM-DD` format

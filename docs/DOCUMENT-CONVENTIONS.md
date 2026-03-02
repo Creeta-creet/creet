@@ -11,8 +11,8 @@
 
 | 대상 | 생성 주체 | 현재 파일 |
 |------|-----------|-----------|
-| 작업계획서 (Work Plan) | `/cp` | `.creet/plans/YYYY-MM-DD-{slug}.md` |
-| 실행 결과 합성 | `/cc` | (콘솔 출력만, 파일 없음) |
+| 작업계획서 (Work Plan) | `/cp` | `docs/YYYY-MM-DD-{slug}.md` |
+| 실행 결과 합성 | `/cc` | `.creet/results/synth-YYYY-MM-DD-{slug}.md` (saveSynthesisResults=true 시) |
 | Plan 상태 추적 | `plan-manager.js` | `.creet/plan-state.json` |
 | Agent 대시보드 | `agent-tracker.js` | `.creet/agent-dashboard.json` |
 
@@ -27,7 +27,7 @@
 | 항목 | 현재 규칙 | 문제점 |
 |------|-----------|--------|
 | 파일명 | `YYYY-MM-DD-{slug}.md` | slug 생성 규칙이 `plan-manager.js`에만 있고 SKILL.md와 중복 정의됨 |
-| 폴더 | `.creet/plans/` | 작업계획서만 저장. `/cc` 결과는 저장 안 됨 |
+| 폴더 | `docs/` (기본), `.creet/results/` (/cc) | 작업계획서는 `docs/`, /cc 합성 결과는 `.creet/results/` |
 | ID | `plan_${timestamp36}_${hex}` | Plan에만 ID 존재. Agent, Session과 ID 형식이 제각각 |
 
 ### 개선된 규칙
@@ -53,7 +53,7 @@
 // 규칙: plan-manager.js의 generateSlug()이 유일한 slug 생성 함수
 // SKILL.md에서는 "slug는 plan-manager.js가 생성한다"고만 명시
 
-// 허용 문자: a-z, 0-9, 한글, 일본어, 중국어, 하이픈
+// 허용 문자: 모든 Unicode 문자(\p{L}), 숫자(\p{N}), 하이픈
 // 최대 길이: 50자
 // 단어 수: 3~5개 핵심 키워드
 // 1글자 단어: 제외 (filter(w => w.length > 1))
@@ -63,14 +63,15 @@
 #### 1.3 폴더 구조
 
 ```
-.creet/
-├── plans/                    # /cp 작업계획서
-│   ├── plan-2026-03-02-jwt-auth.md
-│   └── plan-2026-03-01-db-migration.md
-├── results/                  # /cc 실행 결과 (신규)
-│   └── result-2026-03-02-seo-audit.md
-├── plan-state.json           # Plan 상태 추적
-└── agent-dashboard.json      # Agent 라이프사이클
+project-root/
+├── docs/                        # /cp 작업계획서 (기본 저장 위치, planDir로 변경 가능)
+│   ├── 2026-03-02-jwt-auth.md
+│   └── 2026-03-01-db-migration.md
+├── .creet/
+│   ├── results/                 # /cc 합성 결과 (saveSynthesisResults=true 시)
+│   │   └── synth-2026-03-02-seo-audit.md
+│   ├── plan-state.json          # Plan 상태 추적
+│   └── agent-dashboard.json     # Agent 라이프사이클
 ```
 
 #### 1.4 ID 형식 통일
