@@ -127,3 +127,20 @@ EN, KO, JA, ZH, ES, FR, DE, IT (8 languages)
 - **v1.6.0** (2026-02-28): Agent dashboard, 3 new hooks (PreToolUse/PostToolUse/Stop), slash command priority override
 
 See [CHANGELOG.md](CHANGELOG.md) for full history.
+
+## Release Checklist
+
+1. 코드 변경 완료 + 커밋
+2. 버전 범프 (9곳 동시): `plugin.json`, `marketplace.json`, `hooks.json`, `CLAUDE.md`, `session-start.js`, `skills/c/SKILL.md`, `skills/cc/SKILL.md`, `skills/cp/SKILL.md`, `CHANGELOG.md`
+3. 커밋: `chore: bump version to vX.Y.Z`
+4. 태그: `git tag vX.Y.Z`
+5. Push: `git push origin master --tags`
+6. GitHub Release: `gh release create vX.Y.Z --title "vX.Y.Z — Title" --notes-file -`
+7. marketplace.json의 `source.ref` 업데이트 (해당 태그로)
+
+## Publishing
+
+- Anthropic 공식 디렉토리 제출: <https://clau.de/plugin-directory-submission>
+- 독립 마켓플레이스: `/plugin marketplace add Creeta-creet/creet`
+- 개발용: `claude --plugin-dir ./creet`
+- 상세: [docs/PUBLISHING-GUIDE.md](docs/PUBLISHING-GUIDE.md)
