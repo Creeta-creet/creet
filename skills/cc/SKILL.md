@@ -122,6 +122,31 @@ After all tasks complete, present results in this format:
 [Concrete, prioritized actions combining the best of all outputs]
 ```
 
+### 7. Save Results (optional)
+
+If `creet.config.json` has `"saveSynthesisResults": true`, save the synthesis output as a markdown file:
+
+- **Directory**: `.creet/results/` (create if missing). If `resultsDir` is set in config, use that instead.
+- **Filename**: `synth-{YYYY-MM-DD}-{slug}.md` (slug from the user's request, 3-5 keywords)
+- **Content**: The full synthesis output (all skill results + Synthesis section), prefixed with YAML frontmatter:
+
+```yaml
+---
+id: synth_{timestamp36}_{hex4}
+type: synthesis
+created: {ISO datetime}
+status: completed
+generator: creet/multi
+language: {detected language}
+skills: [skill-a, skill-b, ...]
+request: "{user's original request, first 100 chars}"
+---
+```
+
+After saving, inform the user of the saved file path.
+
+If `saveSynthesisResults` is false or not set, skip this phase (output to console only, as before).
+
 ## Fallback Behavior
 
 - If **no skills match** the request: fall back to `/c` workflow (single best recommendation)

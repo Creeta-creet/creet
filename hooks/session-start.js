@@ -32,9 +32,18 @@ try {
 
 function main() {
   try {
-    // 0. Initialize agent dashboard + plans directory for this session
+    // 0. Initialize agent dashboard + plans + results directories for this session
     const dashboard = initSession();
     ensurePlansDir(config.planDir || null);
+    // Ensure results directory for /cc synthesis output
+    if (config.saveSynthesisResults) {
+      const resultsDir = config.resultsDir
+        ? path.resolve(config.resultsDir)
+        : path.join(process.env.CLAUDE_PROJECT_DIR || process.cwd(), '.creet', 'results');
+      if (!fs.existsSync(resultsDir)) {
+        fs.mkdirSync(resultsDir, { recursive: true });
+      }
+    }
 
     // 1. Scan installed skills and cache for UserPromptSubmit hook
     const skills = scanInstalledSkills();

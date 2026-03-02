@@ -68,8 +68,13 @@ creet/
 │   ├── plugin-registry.js     # Known plugins for discovery
 │   ├── agent-tracker.js       # Agent dashboard state management
 │   └── plan-manager.js        # Plan document management
+├── templates/
+│   ├── plan.template.md           # /cp work plan template
+│   ├── execution-result.template.md # Post-execution result template
+│   └── synthesis.template.md      # /cc synthesis output template
 ├── docs/
-│   └── DOCUMENTATION-GUIDE.md # Documentation standards
+│   ├── DOCUMENTATION-GUIDE.md # Documentation standards
+│   └── DOCUMENT-CONVENTIONS.md # Document writing conventions
 ├── creet.config.json          # Runtime configuration
 ├── CLAUDE.md                  # This file (AI briefing)
 ├── CHANGELOG.md               # Version history
@@ -88,6 +93,8 @@ creet/
 | `customKeywords` | `[]` | Additional keyword-to-skill mappings |
 | `planDir` | `null` | Custom plan file directory (null = `.creet/plans/`) |
 | `defaultPlanLanguage` | `null` | Force plan language (null = auto-detect from user) |
+| `saveSynthesisResults` | `true` | Save /cc synthesis results to .creet/results/ |
+| `resultsDir` | `null` | Custom results directory (null = `.creet/results/`) |
 
 ## Detection Targets
 
