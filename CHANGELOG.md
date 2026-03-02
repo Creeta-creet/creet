@@ -1,5 +1,24 @@
 # Changelog
 
+## [1.7.1] - 2026-03-02
+
+### Fixed (v1.7.1)
+
+- **Storage path consistency** — Unified all documentation references to `docs/` (was mixed `.creet/plans/` and `docs/`). Code already used `docs/` correctly; docs now match.
+- **`cancelled` status support** — Added `cancelled` to `validStatuses` in `updatePlanStatus()` with `cancelledAt` timestamp tracking. Was missing despite being documented in DOCUMENT-CONVENTIONS.md.
+- **Regex safety in `updatePlanStatus()`** — Rewrote to extract YAML frontmatter first before replacement, preventing greedy regex from matching body content.
+- **8-language plan headers** — Added Spanish, French, German, Italian section headers to `generatePlanContent()` (was only EN/KO/JA/ZH).
+- **YAML frontmatter parser** — Added null/boolean/integer type conversion in `parsePlanFrontmatter()`.
+- **JSON parse safety** — `savePlanState()` now gracefully resets on corrupted `plan-state.json` instead of crashing.
+- **CLAUDE.md exports list** — Updated from 5 to 15 exported functions including `getStatePath()`.
+
+### Changed (v1.7.1)
+
+- All version strings unified to v1.7.1 across plugin.json, marketplace.json, hooks.json, CLAUDE.md
+- `skills/cp/SKILL.md` save location simplified to 2-tier priority (planDir → docs/)
+- `docs/DOCUMENT-CONVENTIONS.md` updated with correct storage paths, slug rules, folder structure
+- `README.md` added `saveSynthesisResults` and `resultsDir` config options
+
 ## [1.7.0] - 2026-02-28
 
 ### Added (v1.7.0)
