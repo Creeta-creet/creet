@@ -40,7 +40,7 @@ Scans all installed plugins (Skills, MCP tools, LSP servers), recommends the bes
 | Memory Store | `memory-store.js` | `loadMemory()`, `saveMemory()`, `recordSessionStart()`, `recordSkillUsage()`, `recordPlanCreation()` | Persists at `~/.claude/creet/.creet-memory.json`. Usage counts, recent skills, plan history |
 | Plugin Registry | `plugin-registry.js` | `searchRegistry()`, `KNOWN_PLUGINS` | 60+ known plugins. Suggests installable plugins when no match found |
 | Agent Tracker | `agent-tracker.js` | `initSession()`, `registerAgent()`, `completeAgent()`, `endSession()` | Tracks Task agent lifecycle in `.creet/agent-dashboard.json`. Atomic writes, error logs |
-| Plan Manager | `plan-manager.js` | `getPlansDir()`, `ensurePlansDir()`, `generateSlug()`, `generateFileName()`, `generatePlanId()`, `savePlanState()`, `loadPlanState()`, `listPlans()`, `formatPlanSummary()`, `generatePlanContent()`, `parsePlanFrontmatter()`, `updatePlanStatus()`, `validatePlanStructure()`, `REQUIRED_SECTIONS` | Plan file naming (`YYYY-MM-DD-slug.md`), document generation (4-lang headers), YAML frontmatter parsing, status lifecycle management, state tracking at `.creet/plan-state.json` |
+| Plan Manager | `plan-manager.js` | `getPlansDir()`, `ensurePlansDir()`, `getStatePath()`, `generateSlug()`, `generateFileName()`, `generatePlanId()`, `savePlanState()`, `loadPlanState()`, `listPlans()`, `formatPlanSummary()`, `generatePlanContent()`, `parsePlanFrontmatter()`, `updatePlanStatus()`, `validatePlanStructure()`, `REQUIRED_SECTIONS` | Plan file naming (`YYYY-MM-DD-slug.md`), document generation (4-lang headers), YAML frontmatter parsing, status lifecycle management, state tracking at `.creet/plan-state.json` |
 
 ## Folder Structure
 
@@ -68,10 +68,10 @@ creet/
 │   ├── plugin-registry.js     # Known plugins for discovery
 │   ├── agent-tracker.js       # Agent dashboard state management
 │   └── plan-manager.js        # Plan document management
-├── templates/
-│   ├── plan.template.md           # /cp work plan template
-│   ├── execution-result.template.md # Post-execution result template
-│   └── synthesis.template.md      # /cc synthesis output template
+├── templates/                     # AI reference only — code (generatePlanContent) does NOT read these at runtime
+│   ├── plan.template.md           # /cp work plan structure reference
+│   ├── execution-result.template.md # Post-execution result structure reference
+│   └── synthesis.template.md      # /cc synthesis output structure reference
 ├── docs/
 │   ├── DOCUMENTATION-GUIDE.md # Documentation standards
 │   └── DOCUMENT-CONVENTIONS.md # Document writing conventions
