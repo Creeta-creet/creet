@@ -11,7 +11,7 @@ const PLUGIN_ROOT = path.resolve(__dirname, '..');
 // Load config
 let config = {};
 try {
-  const configPath = path.join(PLUGIN_ROOT, 'creet.config.json');
+  const configPath = path.join(PLUGIN_ROOT, 'lens.config.json');
   if (fs.existsSync(configPath)) {
     config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
   }

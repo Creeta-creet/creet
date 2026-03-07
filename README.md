@@ -1,8 +1,8 @@
-# Creet
+# Lens
 
 **Never wonder which plugin to use again.**
 
-Creet is a skill navigator for Claude Code by [Creeta](https://www.creeta.com). It scans your installed plugins, finds the best skill for your task, and runs it — all from a single command.
+Lens is a skill navigator for Claude Code by [Lensa](https://www.lensa.com). It scans your installed plugins, finds the best skill for your task, and runs it — all from a single command.
 
 Works with **any** combination of plugins. No hardcoded dependencies.
 
@@ -15,7 +15,7 @@ You installed 10+ plugins. That's 50+ slash commands, MCP tools, and LSP servers
 ```
 You: /c build a dashboard with auth
 
-Creet — Skill Scan
+Lens — Skill Scan
 | #  | Name          | Type  | Plugin    | Domain   |
 |----|---------------|-------|-----------|----------|
 | 1  | /auth-setup   | Skill | plugin-a  | Auth     |
@@ -26,7 +26,7 @@ Creet — Skill Scan
 
 Total: 30 skills, 3 MCP tools, 2 LSP servers from 10 plugins
 
-Creet — Recommendation
+Lens — Recommendation
 
 > "Build a dashboard with auth"
 
@@ -36,7 +36,7 @@ Which skill should I run?
   Other
 ```
 
-Select a skill and Creet runs it immediately.
+Select a skill and Lens runs it immediately.
 
 ## Installation
 
@@ -45,11 +45,11 @@ Select a skill and Creet runs it immediately.
 Clone the repo and load it with `--plugin-dir`:
 
 ```bash
-git clone https://github.com/Creeta-creet/creet.git
-claude --plugin-dir ./creet
+git clone https://github.com/Lensa-lens/lens.git
+claude --plugin-dir ./lens
 ```
 
-Then use `/creet:c` inside Claude Code.
+Then use `/lens:c` inside Claude Code.
 
 ### Option 2: Copy to your commands (Quick setup)
 
@@ -57,7 +57,7 @@ Copy the skill file to your user-level commands for a shorter `/c` command:
 
 ```bash
 mkdir -p ~/.claude/commands
-curl -o ~/.claude/commands/c.md https://raw.githubusercontent.com/Creeta-creet/creet/main/skills/c/SKILL.md
+curl -o ~/.claude/commands/c.md https://raw.githubusercontent.com/Lensa-lens/lens/main/skills/c/SKILL.md
 ```
 
 Restart Claude Code, then use `/c` directly.
@@ -67,7 +67,7 @@ Restart Claude Code, then use `/c` directly.
 If you already cloned the repo:
 
 ```bash
-claude --plugin-dir /path/to/creet
+claude --plugin-dir /path/to/lens
 ```
 
 ## Usage
@@ -164,7 +164,7 @@ Unlike `/c` and `/cc`, `/cp` generates a **work plan document** before any execu
 
 ## Configuration
 
-`creet.config.json`:
+`lens.config.json`:
 
 ```json
 {
@@ -183,18 +183,18 @@ Unlike `/c` and `/cc`, `/cp` generates a **work plan document** before any execu
 | Option | Default | Description |
 | --- | --- | --- |
 | `autoRecommend` | `true` | Show skill suggestions in responses |
-| `showReport` | `true` | Show Creet tip line when skill matches |
+| `showReport` | `true` | Show Lens tip line when skill matches |
 | `minMatchScore` | `5` | Minimum keyword match score for recommendations |
-| `memoryPath` | `null` | Custom path for memory file (null = `~/.claude/creet/`) |
+| `memoryPath` | `null` | Custom path for memory file (null = `~/.claude/lens/`) |
 | `customKeywords` | `[]` | Additional keyword-to-skill mappings |
 | `planDir` | `null` | Custom plan file directory (null = project `docs/`) |
 | `defaultPlanLanguage` | `null` | Force plan document language (null = auto-detect) |
-| `saveSynthesisResults` | `true` | Save /cc synthesis results to `.creet/results/` |
-| `resultsDir` | `null` | Custom results directory (null = `.creet/results/`) |
+| `saveSynthesisResults` | `true` | Save /cc synthesis results to `.lens/results/` |
+| `resultsDir` | `null` | Custom results directory (null = `.lens/results/`) |
 
-## Building Custom Skills with Creet
+## Building Custom Skills with Lens
 
-Creet is a navigator, but you can build your own skills that take advantage of the same multi-agent patterns. Here's an example:
+Lens is a navigator, but you can build your own skills that take advantage of the same multi-agent patterns. Here's an example:
 
 **`design-council`** — A skill that summons all installed design agents in parallel, collects their perspectives, and synthesizes a unified design decision.
 
@@ -216,7 +216,7 @@ Each agent analyzes the task from their domain perspective.
 Collect all agent outputs and produce a unified recommendation.
 ```
 
-This pattern works for any domain: security councils, code review boards, architecture committees. Creet's scanner will automatically detect and list any such skill you install.
+This pattern works for any domain: security councils, code review boards, architecture committees. Lens's scanner will automatically detect and list any such skill you install.
 
 ## Requirements
 

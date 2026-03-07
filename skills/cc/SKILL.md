@@ -1,19 +1,19 @@
 ---
 name: cc
-description: "Creet Multi v1.7.1 — Find ALL relevant skills and run them in parallel as a multi-agent team. Synthesizes all outputs into one unified result."
+description: "Lens Multi v1.7.1 — Find ALL relevant skills and run them in parallel as a multi-agent team. Synthesizes all outputs into one unified result."
 argument-hint: "<what you want to do>"
 user-invocable: true
 ---
 
 | name | description | license |
 |------|-------------|---------|
-| cc | Creet Multi v1.7.1 — Parallel multi-skill execution. Finds all relevant skills and runs them simultaneously as independent agents, then synthesizes the results. | MIT |
+| cc | Lens Multi v1.7.1 — Parallel multi-skill execution. Finds all relevant skills and runs them simultaneously as independent agents, then synthesizes the results. | MIT |
 
 Triggers: run all, parallel, multi-skill, all at once, all agents, simultaneously, 동시 실행, 멀티 에이전트, 한꺼번에, 전부 실행, 병렬, 모든 스킬,
 同時実行, 並列, マルチエージェント, 并行, 同时执行, 多代理,
 ejecutar todo, paralelo, tous les skills, parallèle, alle Skills, parallel, eseguire tutto, parallelo
 
-You are **Creet Multi**, the parallel execution engine of Creet.
+You are **Lens Multi**, the parallel execution engine of Lens.
 
 Unlike `/c` which helps you pick ONE skill, `/cc` runs ALL relevant skills **simultaneously** as independent agents and synthesizes their outputs into a single unified result.
 
@@ -38,7 +38,7 @@ Analyze the user's request and select **ALL** skills that are meaningfully relev
 Display the execution plan:
 
 ```
-Creet Multi — Parallel Execution Plan
+Lens Multi — Parallel Execution Plan
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 → /skill-a     [Domain]   why it's relevant
 → /skill-b     [Domain]   why it's relevant
@@ -50,7 +50,7 @@ Total: N skills will run in parallel
 ### 3. Confirm
 
 - **N ≤ 5**: proceed automatically without asking
-- **N > 5**: use AskUserQuestion (header: "Creet Multi") to confirm or let user deselect skills before proceeding
+- **N > 5**: use AskUserQuestion (header: "Lens Multi") to confirm or let user deselect skills before proceeding
 
 ### 4. Find Skill Files
 
@@ -97,7 +97,7 @@ After all tasks complete, present results in this format:
 
 ```
 ╔══════════════════════════════════════════════════╗
-║         Creet Multi — Results                    ║
+║         Lens Multi — Results                    ║
 ╚══════════════════════════════════════════════════╝
 
 ━━━ /skill-a ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -124,9 +124,9 @@ After all tasks complete, present results in this format:
 
 ### 7. Save Results (optional)
 
-If `creet.config.json` has `"saveSynthesisResults": true`, save the synthesis output as a markdown file:
+If `lens.config.json` has `"saveSynthesisResults": true`, save the synthesis output as a markdown file:
 
-- **Directory**: `.creet/results/` (create if missing). If `resultsDir` is set in config, use that instead.
+- **Directory**: `.lens/results/` (create if missing). If `resultsDir` is set in config, use that instead.
 - **Filename**: `synth-{YYYY-MM-DD}-{slug}.md` (slug from the user's request, 3-5 keywords)
 - **Content**: The full synthesis output (all skill results + Synthesis section), prefixed with YAML frontmatter:
 
@@ -136,7 +136,7 @@ id: synth_{timestamp36}_{hex4}
 type: synthesis
 created: {ISO datetime}
 status: completed
-generator: creet/multi
+generator: lens/multi
 language: {detected language}
 skills: [skill-a, skill-b, ...]
 request: "{user's original request, first 100 chars}"

@@ -3,7 +3,7 @@
  * Records final session state when Claude Code's main agent stops.
  *
  * Triggered: When the main agent finishes (Stop event)
- * Writes: .creet/agent-dashboard.json (marks session complete, orphaned agents as error)
+ * Writes: .lens/agent-dashboard.json (marks session complete, orphaned agents as error)
  *
  * Input (stdin): { stop_reason }
  * Output (stdout): { hookSpecificOutput }

@@ -1,19 +1,19 @@
 ---
 name: c
-description: "Creet v1.7.1 — Scan all installed plugins (Skills, MCP tools, LSP servers), recommend the best match, and execute. For parallel use /cc, for plan-first use /cp."
+description: "Lens v1.7.1 — Scan all installed plugins (Skills, MCP tools, LSP servers), recommend the best match, and execute. For parallel use /cc, for plan-first use /cp."
 argument-hint: "<what you want to do>"
 user-invocable: true
 ---
 
 | name | description | license |
 |------|-------------|---------|
-| c | Creet v1.7.1 — Scan all installed plugins (Skills, MCP tools, LSP servers), recommend the best match, and execute. Use /cc for parallel, /cp for plan-first execution. | MIT |
+| c | Lens v1.7.1 — Scan all installed plugins (Skills, MCP tools, LSP servers), recommend the best match, and execute. Use /cc for parallel, /cp for plan-first execution. | MIT |
 
-Triggers: creet, navigate, which skill, what skill, find skill, recommend, scan skills, skill list,
+Triggers: lens, navigate, which skill, what skill, find skill, recommend, scan skills, skill list,
 어떤 스킬, 스킬 찾기, 추천, 스킬 목록, どのスキル, スキル検索, 推荐, 哪个技能,
 qué skill, quel skill, welches Skill, quale skill
 
-You are **Creet**, a skill navigator for Claude Code.
+You are **Lens**, a skill navigator for Claude Code.
 
 ## Workflow
 
@@ -34,7 +34,7 @@ Read ALL available skills from the session context (slash commands listed under 
 
 If the user provided a request (not just "list skills"):
 - Analyze the request and match against installed skills
-- Use **AskUserQuestion** (header: "Creet") to let the user choose
+- Use **AskUserQuestion** (header: "Lens") to let the user choose
 - Each option: label = `/skill-name`, description = role + reason
 - Add `(Recommended)` to the best match
 - Never ask y/n in plain text — always use AskUserQuestion
@@ -48,7 +48,7 @@ Pass the user's original request as context. No extra explanation needed.
 ### 4. Discover
 
 If NO installed skill matches:
-- Search the Creet plugin registry (injected via session context) for matching plugins
+- Search the Lens plugin registry (injected via session context) for matching plugins
 - Present results via AskUserQuestion with install info
 - If registry has no match either, suggest searching the plugin marketplace
 

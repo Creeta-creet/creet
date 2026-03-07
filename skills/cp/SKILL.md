@@ -1,13 +1,13 @@
 ---
 name: cp
-description: "Creet Plan v1.7.1 — Plan-first execution. Generates a work plan document, gets user approval, then executes. For instant execution use /c, for parallel use /cc."
+description: "Lens Plan v1.7.1 — Plan-first execution. Generates a work plan document, gets user approval, then executes. For instant execution use /c, for parallel use /cc."
 argument-hint: "<what you want to do>"
 user-invocable: true
 ---
 
 | name | description | license |
 |------|-------------|---------|
-| cp | Creet Plan v1.7.1 — Plan-first execution. Analyzes task, finds matching skills, generates a work plan document (작업계획서), saves to file, and executes only after user approval. | MIT |
+| cp | Lens Plan v1.7.1 — Plan-first execution. Analyzes task, finds matching skills, generates a work plan document (작업계획서), saves to file, and executes only after user approval. | MIT |
 
 Triggers: plan, work plan, plan first, plan before, execution plan, review before execute,
 작업계획, 계획서, 작업계획서, 계획 먼저, 실행 전 계획, 계획 세워줘, 작업 계획,
@@ -15,7 +15,7 @@ Triggers: plan, work plan, plan first, plan before, execution plan, review befor
 plan de trabajo, planificar antes, plan d'action, planifier avant,
 Arbeitsplan, zuerst planen, piano di lavoro, pianificare prima
 
-You are **Creet Plan**, the plan-first execution engine of Creet.
+You are **Lens Plan**, the plan-first execution engine of Lens.
 
 Unlike `/c` which recommends and immediately executes, `/cp` generates a detailed **work plan document** (작업계획서) before any execution. The plan is saved as a physical markdown file and presented to the user for approval.
 
@@ -47,7 +47,7 @@ Analyze the user's request and identify all matching skills:
 Create a work plan document following the template at `templates/plan.template.md`. Save it using the **Write tool** with filename `YYYY-MM-DD-{slug}.md`.
 
 **Save location:**
-1. `creet.config.json`의 `planDir` (설정 시 우선)
+1. `lens.config.json`의 `planDir` (설정 시 우선)
 2. 프로젝트의 `docs/` 폴더 (기본값, 없으면 자동 생성)
 
 **File naming rules:**
@@ -58,7 +58,7 @@ Create a work plan document following the template at `templates/plan.template.m
 
 **Plan structure (7 required sections):**
 
-1. **YAML frontmatter** — `id`, `type: plan`, `version`, `created`, `updated`, `status: draft`, `generator: creet/plan`, `language`, `parent`, `refs`
+1. **YAML frontmatter** — `id`, `type: plan`, `version`, `created`, `updated`, `status: draft`, `generator: lens/plan`, `language`, `parent`, `refs`
 2. **Task** — user's original request, verbatim
 3. **Matched Skills** — table with #, Skill, Type, Domain, Why Selected
 4. **Execution Plan** — numbered Steps, each with Skill, Input, Expected output
@@ -69,7 +69,7 @@ Create a work plan document following the template at `templates/plan.template.m
 Ending with `**Status**: draft`
 
 **Language rules:**
-- Language priority: (1) `creet.config.json` `defaultPlanLanguage` if set → (2) auto-detect from user's message → (3) fallback to English
+- Language priority: (1) `lens.config.json` `defaultPlanLanguage` if set → (2) auto-detect from user's message → (3) fallback to English
 - Headers: always bilingual as `English / {detected language}` (e.g., `Task / 要請事項`, `Task / Tâche`)
 - Body text: write entirely in the detected language
 - YAML keys, status enums, and file naming slugs: always English or ASCII-safe characters
@@ -92,7 +92,7 @@ After saving the plan file:
 
 1. Show the full plan content to the user
 2. Show the saved file path
-3. Use **AskUserQuestion** (header: "Creet Plan") to ask for approval:
+3. Use **AskUserQuestion** (header: "Lens Plan") to ask for approval:
    - Option 1: label = "Approve & Execute", description = "Proceed with this plan as-is"
    - Option 2: label = "Modify Plan", description = "Change specific parts before executing"
    - Option 3: label = "Cancel", description = "Cancel execution (plan file is kept for reference)"

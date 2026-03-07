@@ -1,5 +1,5 @@
 {
-  "name": "creet",
+  "name": "lens",
   "version": "1.7.1",
   "description": "Skill navigator for Claude Code. Scans all installed plugins (Skills, MCP tools, LSP servers), recommends the best match for your task in 8 languages, and executes it. Plan-first execution with /cp. Type /c to start.",
   "author": {
@@ -7,14 +7,14 @@
     "email": "creet@creeta.com",
     "url": "https://www.creeta.com"
   },
-  "homepage": "https://github.com/Creeta-creet/creet",
-  "repository": "https://github.com/Creeta-creet/creet",
+  "homepage": "https://github.com/CreetaCorp/lens",
+  "repository": "https://github.com/CreetaCorp/lens",
   "license": "MIT",
   "skills": "./skills/",
   "hooks": "./hooks/hooks.json",
   "keywords": [
     "claude-code",
-    "creet",
+    "lens",
     "skill-navigator",
     "plugin-scanner",
     "mcp-tools",

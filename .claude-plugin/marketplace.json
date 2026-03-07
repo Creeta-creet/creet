@@ -1,30 +1,30 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "Creeta-creet",
-  "description": "Creet - Skill navigator for Claude Code. Scans Skills, MCP tools, and LSP servers from all installed plugins and recommends the best match for your task.",
+  "name": "CreetaCorp",
+  "description": "Lens - Skill navigator for Claude Code. Scans Skills, MCP tools, and LSP servers from all installed plugins and recommends the best match for your task.",
   "owner": {
     "name": "Creeta",
     "email": "creet@creeta.com",
     "url": "https://www.creeta.com"
   },
   "metadata": {
-    "description": "Creet plugin marketplace by Creeta",
+    "description": "Lens plugin marketplace by Creeta",
     "version": "1.0.0"
   },
   "plugins": [
     {
-      "name": "creet",
+      "name": "lens",
       "description": "Skill navigator for Claude Code. Scans all installed plugins (Skills, MCP tools, LSP servers), recommends the best match for your task in 8 languages, and executes it. Single (/c), parallel (/cc), or plan-first (/cp).",
       "version": "1.7.1",
       "author": {
         "name": "Creeta",
         "email": "creet@creeta.com"
       },
-      "homepage": "https://github.com/Creeta-creet/creet",
-      "repository": "https://github.com/Creeta-creet/creet",
+      "homepage": "https://github.com/CreetaCorp/lens",
+      "repository": "https://github.com/CreetaCorp/lens",
       "source": {
         "source": "github",
-        "repo": "Creeta-creet/creet",
+        "repo": "CreetaCorp/lens",
         "ref": "v1.7.1"
       },
       "license": "MIT",
@@ -38,7 +38,7 @@
         "session-hooks"
       ],
       "keywords": [
-        "creet",
+        "lens",
         "skill-navigator",
         "plugin-scanner",
         "mcp-tools",

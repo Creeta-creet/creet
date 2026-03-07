@@ -1,5 +1,5 @@
 /**
- * Creet - SessionStart Hook
+ * Lens - SessionStart Hook
  * Scans installed skills, loads memory, and injects context into the session.
  */
 
@@ -20,7 +20,7 @@ const { formatPlanSummary, ensurePlansDir } = require(path.join(PLUGIN_ROOT, 'li
 // Load config
 let config = {};
 try {
-  const configPath = path.join(PLUGIN_ROOT, 'creet.config.json');
+  const configPath = path.join(PLUGIN_ROOT, 'lens.config.json');
   if (fs.existsSync(configPath)) {
     config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
   }
@@ -39,7 +39,7 @@ function main() {
     if (config.saveSynthesisResults) {
       const resultsDir = config.resultsDir
         ? path.resolve(config.resultsDir)
-        : path.join(process.env.CLAUDE_PROJECT_DIR || process.cwd(), '.creet', 'results');
+        : path.join(process.env.CLAUDE_PROJECT_DIR || process.cwd(), '.lens', 'results');
       if (!fs.existsSync(resultsDir)) {
         fs.mkdirSync(resultsDir, { recursive: true });
       }
@@ -76,7 +76,7 @@ function main() {
 
     // 6. Output response
     const response = {
-      systemMessage: `Creet v1.7.1 activated - ${skills.length} skills from ${[...new Set(skills.map(s => s.plugin))].length} plugins detected | Agent Dashboard + Plan System ready`,
+      systemMessage: `Lens v1.7.1 activated - ${skills.length} skills from ${[...new Set(skills.map(s => s.plugin))].length} plugins detected | Agent Dashboard + Plan System ready`,
       hookSpecificOutput: {
         hookEventName: 'SessionStart',
         skillCount: skills.length,
@@ -95,7 +95,7 @@ function main() {
   } catch (err) {
     // Fail gracefully - don't break the session
     const fallback = {
-      systemMessage: 'Creet v1.7.1 activated (scan skipped)',
+      systemMessage: 'Lens v1.7.1 activated (scan skipped)',
       hookSpecificOutput: {
         hookEventName: 'SessionStart',
         error: err.message,
@@ -116,7 +116,7 @@ function buildAdditionalContext({ skillTable, memorySummary, keywordTable, planS
   let ctx = '';
 
   // Header
-  ctx += `# Creet v1.7.1 - Session Startup\n\n`;
+  ctx += `# Lens v1.7.1 - Session Startup\n\n`;
 
   // Skill inventory
   ctx += `## Installed Skills (Auto-Scanned)\n\n`;
@@ -161,7 +161,7 @@ function buildAdditionalContext({ skillTable, memorySummary, keywordTable, planS
     ctx += planSummary + '\n\n';
   }
 
-  // Creet usage guide
+  // Lens usage guide
   ctx += `## Quick Commands\n\n`;
   ctx += `- \`/c <request>\` - Scan + Recommend + Execute (pick the best skill)\n`;
   ctx += `- \`/cc <request>\` - Run ALL relevant skills in parallel + synthesize results\n`;
@@ -170,11 +170,11 @@ function buildAdditionalContext({ skillTable, memorySummary, keywordTable, planS
 
   // Report rule
   if (showReport) {
-    ctx += `## Creet Suggestion Line (Recommended for all responses)\n\n`;
+    ctx += `## Lens Suggestion Line (Recommended for all responses)\n\n`;
     ctx += `When a user's request clearly matches an installed skill but they didn't use /c,\n`;
     ctx += `add a single-line suggestion at the end of your response:\n\n`;
     ctx += '```\n';
-    ctx += `── Creet ──────────────────────────────\n`;
+    ctx += `── Lens ──────────────────────────────\n`;
     ctx += `Tip: /skill-name can help with this task\n`;
     ctx += `─────────────────────────────────────────\n`;
     ctx += '```\n\n';
@@ -189,7 +189,7 @@ function buildAdditionalContext({ skillTable, memorySummary, keywordTable, planS
 }
 
 function buildFallbackContext() {
-  return `# Creet v1.7.1 - Session Startup
+  return `# Lens v1.7.1 - Session Startup
 
 Skill scan was skipped (no plugins cache found or scan error).
 Use \`/c <request>\` to manually scan and get recommendations.

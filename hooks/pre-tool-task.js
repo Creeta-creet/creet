@@ -3,7 +3,7 @@
  * Tracks when a sub-agent (Task tool) starts execution.
  *
  * Triggered: Before each Task tool invocation
- * Writes: .creet/agent-dashboard.json
+ * Writes: .lens/agent-dashboard.json
  *
  * Input (stdin): { tool_name, tool_input: { description, ... } }
  * Output (stdout): { decision, hookSpecificOutput }

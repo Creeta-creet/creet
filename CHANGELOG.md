@@ -4,7 +4,7 @@
 
 ### Fixed (v1.7.1)
 
-- **Storage path consistency** — Unified all documentation references to `docs/` (was mixed `.creet/plans/` and `docs/`). Code already used `docs/` correctly; docs now match.
+- **Storage path consistency** — Unified all documentation references to `docs/` (was mixed `.lens/plans/` and `docs/`). Code already used `docs/` correctly; docs now match.
 - **`cancelled` status support** — Added `cancelled` to `validStatuses` in `updatePlanStatus()` with `cancelledAt` timestamp tracking. Was missing despite being documented in DOCUMENT-CONVENTIONS.md.
 - **Regex safety in `updatePlanStatus()`** — Rewrote to extract YAML frontmatter first before replacement, preventing greedy regex from matching body content.
 - **8-language plan headers** — Added Spanish, French, German, Italian section headers to `generatePlanContent()` (was only EN/KO/JA/ZH).
@@ -23,10 +23,10 @@
 
 ### Added (v1.7.0)
 
-- **`/cp` — Creet Plan**: New skill for plan-first execution. Generates a work plan document (작업계획서) before executing, saves it as a markdown file, presents for user approval, then executes. 7-phase workflow: Scan → Analyze → Generate Plan → Approve → Execute → Post-Exec Update. `skills/cp/SKILL.md`
+- **`/cp` — Lens Plan**: New skill for plan-first execution. Generates a work plan document (작업계획서) before executing, saves it as a markdown file, presents for user approval, then executes. 7-phase workflow: Scan → Analyze → Generate Plan → Approve → Execute → Post-Exec Update. `skills/cp/SKILL.md`
 - **Plan Manager module** — Plan document file naming (`YYYY-MM-DD-slug.md`), state tracking (`plan-state.json`), slug generation (Korean/Japanese/Chinese character support), plan listing and summary. `lib/plan-manager.js`
-- **`planDir` config option** — Custom plan file directory override (default: project `docs/`). `creet.config.json`
-- **`defaultPlanLanguage` config option** — Force plan document language (default: auto-detect from user). `creet.config.json`
+- **`planDir` config option** — Custom plan file directory override (default: project `docs/`). `lens.config.json`
+- **`defaultPlanLanguage` config option** — Force plan document language (default: auto-detect from user). `lens.config.json`
 - **`recordPlanCreation()`** — New function in memory-store for tracking plan creation in session memory. `lib/memory-store.js`
 
 ### Changed (v1.7.0)
@@ -40,7 +40,7 @@
 
 ### Added (v1.6.0)
 
-- **Agent Dashboard** — Real-time sub-agent lifecycle tracking via `.creet/agent-dashboard.json`. Tracks session ID, agent status (pending/running/done/error), duration, error logs. `lib/agent-tracker.js`
+- **Agent Dashboard** — Real-time sub-agent lifecycle tracking via `.lens/agent-dashboard.json`. Tracks session ID, agent status (pending/running/done/error), duration, error logs. `lib/agent-tracker.js`
 - **PreToolUse hook (Task)** — Registers each Task agent as "running" in the dashboard before execution. `hooks/pre-tool-task.js`
 - **PostToolUse hook (Task)** — Marks Task agent as "done" or "error" after completion, records duration. `hooks/post-tool-task.js`
 - **Stop hook** — Records final session state on exit, marks orphaned agents as error. `hooks/stop.js`
@@ -66,14 +66,14 @@
 
 - **Cross-platform stdin** — `user-prompt-handler.js` was using `fs.readFileSync('/dev/stdin')` which is Unix-only. Replaced with `fs.readFileSync(0, 'utf-8')` (file descriptor 0) which works on Windows, Mac, and Linux. The `UserPromptSubmit` hook was completely non-functional on Windows before this fix.
 - **Dynamic plugin cache path** — `skill-scanner.js` PLUGINS_CACHE_DIR was hardcoded. Replaced with 4-level env var resolution: `CLAUDE_PLUGIN_CACHE_DIR` → inferred from `CLAUDE_PLUGIN_ROOT` → `CLAUDE_HOME/plugins/cache` → `~/.claude/plugins/cache`.
-- **Stable memory path** — `memory-store.js` was using `process.cwd()` to locate memory file, causing data loss when Claude Code was opened from different directories. Now always writes to `~/.claude/creet/.creet-memory.json` (respects `CLAUDE_HOME` env var).
+- **Stable memory path** — `memory-store.js` was using `process.cwd()` to locate memory file, causing data loss when Claude Code was opened from different directories. Now always writes to `~/.claude/lens/.lens-memory.json` (respects `CLAUDE_HOME` env var).
 - **Version string inconsistency** — `hooks.json` and `session-start.js` still showed `v1.3.0` despite v1.4.0 being released. All version strings updated to v1.5.0.
 
 ## [1.4.0] - 2026-02-24
 
 ### Added (v1.4.0)
 
-- **`/cc` — Creet Multi**: New skill for parallel multi-agent execution. Finds ALL relevant skills for a request, runs them simultaneously as independent Task agents, and synthesizes the results into a unified output. Unlike `/c` which recommends one skill, `/cc` runs the whole team at once.
+- **`/cc` — Lens Multi**: New skill for parallel multi-agent execution. Finds ALL relevant skills for a request, runs them simultaneously as independent Task agents, and synthesizes the results into a unified output. Unlike `/c` which recommends one skill, `/cc` runs the whole team at once.
   - N ≤ 5 matched skills: auto-executes without prompting
   - N > 5 matched skills: confirms via AskUserQuestion before running
   - Locates each skill's SKILL.md via Glob → injects full prompt into a `general-purpose` Task agent
@@ -87,7 +87,7 @@
 
 ### Removed (v1.4.0)
 
-- `skills/design-council/SKILL.md` — Was incorrectly shipped as an installable skill. Moved to README as a pattern example under "Building Custom Skills with Creet".
+- `skills/design-council/SKILL.md` — Was incorrectly shipped as an installable skill. Moved to README as a pattern example under "Building Custom Skills with Lens".
 
 ## [1.3.0] - 2026-02-22
 
@@ -95,8 +95,8 @@
 
 - **Zero hardcoded dependencies** — Keyword matcher no longer contains hardcoded skill names. All keyword-to-skill mappings are built dynamically from scanner results at session start.
 - **Dynamic keyword map** — `keyword-matcher.js` completely rewritten. Uses each skill's `triggers` field from scanner output instead of a static `DEFAULT_KEYWORD_MAP`.
-- **Scan cache** — Session start now saves scan results to `.creet-cache.json` so the `UserPromptSubmit` hook can match keywords without re-scanning.
-- **README genericized** — All plugin-specific examples replaced with generic placeholders. Creet is now fully plugin-agnostic in code and documentation.
+- **Scan cache** — Session start now saves scan results to `.lens-cache.json` so the `UserPromptSubmit` hook can match keywords without re-scanning.
+- **README genericized** — All plugin-specific examples replaced with generic placeholders. Lens is now fully plugin-agnostic in code and documentation.
 
 ### Removed (v1.3.0)
 
@@ -139,12 +139,12 @@
 - Multilingual keyword matching (EN, KO, JA, ZH, ES, FR, DE, IT)
 - Session memory persistence
 - Plugin discovery registry
-- Creet suggestion line in responses
-- `creet.config.json` for configuration
+- Lens suggestion line in responses
+- `lens.config.json` for configuration
 
 ### Changed
 
-- Rebranded from Compass to Creet
+- Rebranded from Compass to Lens
 - 4-phase workflow: Scan → Recommend → Execute → Discover
 
 ## [1.0.0] - 2026-02-20
