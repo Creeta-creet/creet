@@ -164,6 +164,40 @@ See [CHANGELOG.md](CHANGELOG.md) for full history.
 5. `git push origin master --tags` (--tags 필수)
 6. `gh release create vX.Y.Z --title "vX.Y.Z — Title" --latest`
 
+### ⚠️ GitHub Release 필수 (이거 안 하면 플러그인 업데이트 안 됨)
+
+Claude Code 플러그인 시스템은 **GitHub Release의 latest 태그**를 기준으로 버전을 결정한다.
+태그만 만들고 Release를 안 만들면, 이전 Release의 버전이 계속 설치된다.
+
+**반드시 확인할 것:**
+
+```bash
+# 1. Release가 latest로 잡혀있는지 확인
+gh release list --repo CreetaCorp/lens
+# → 새 버전이 "Latest"로 표시되어야 함
+
+# 2. 안 되어있으면 release 생성
+gh release create vX.Y.Z --repo CreetaCorp/lens --title "vX.Y.Z — Title" --latest
+
+# 3. 이전 버전 태그가 낡은 커밋을 가리키면 Claude Code가 옛날 코드를 가져옴
+#    marketplace.json의 source.ref 가 가리키는 태그도 최신 커밋이어야 함
+gh api repos/CreetaCorp/lens/git/refs/tags/vX.Y.Z --jq '.object.sha'
+```
+
+**플러그인 설치 검증 (릴리즈 후 반드시 실행):**
+
+```bash
+# 캐시 삭제 → 재설치 → 버전 확인
+rm -rf ~/.claude/plugins/cache/CreetaCorp/
+claude plugins uninstall lens@CreetaCorp
+claude plugins install lens@CreetaCorp
+
+# 설치된 버전 확인
+find ~/.claude/plugins/cache/CreetaCorp/lens/ -name "plugin.json" -path "*claude-plugin*" \
+  -exec python3 -c "import json,sys; print(json.load(open(sys.argv[1]))['version'])" {} \;
+# → vX.Y.Z 이어야 함
+```
+
 ### 검증
 
 ```bash
