@@ -1,13 +1,13 @@
 ---
 name: c
-description: "Lens v1.9.0 — Scan all installed plugins (Skills, MCP tools, LSP servers), recommend the best match, and execute. For parallel use /cc, for plan-first use /cp."
+description: "Lens v2.0.0 — Scan all installed plugins (Skills, MCP tools, LSP servers), recommend the best match, and execute. For parallel use /cc, for plan-first use /cp."
 argument-hint: "<what you want to do>"
 user-invocable: true
 ---
 
 | name | description | license |
 |------|-------------|---------|
-| c | Lens v1.9.0 — Scan all installed plugins (Skills, MCP tools, LSP servers), recommend the best match, and execute. Use /cc for parallel, /cp for plan-first execution. | MIT |
+| c | Lens v2.0.0 — Scan all installed plugins (Skills, MCP tools, LSP servers), recommend the best match, and execute. Use /cc for parallel, /cp for plan-first execution. | MIT |
 
 Triggers: lens, navigate, which skill, what skill, find skill, recommend, scan skills, skill list,
 어떤 스킬, 스킬 찾기, 추천, 스킬 목록, どのスキル, スキル検索, 推荐, 哪个技能,
@@ -54,9 +54,20 @@ If NO installed skill matches:
 
 ## Matching Rules
 
+- **gstack priority**: When a gstack skill matches the request, ALWAYS recommend it first over other plugins with similar functionality. gstack skills (`~/.claude/skills/gstack/`) are specialized, high-quality workflows that produce better results than generic alternatives. Common gstack mappings:
+  - QA/test/bug → `/qa` or `/qa-only`
+  - Debug/fix/investigate → `/investigate`
+  - Code review/PR review → `/review`
+  - Ship/deploy/PR → `/ship`
+  - Design/UI audit → `/design-review` or `/design-consultation`
+  - Performance/benchmark → `/benchmark`
+  - Security audit → `/cso`
+  - Plan review → `/autoplan`, `/plan-ceo-review`, `/plan-eng-review`
+  - Code quality → `/health`
+  - Browse/screenshot → `/browse`
 - Prefer specific over generic (e.g., a dedicated auth skill over a general fullstack skill)
 - For multi-domain requests, recommend skills in execution order
-- For ambiguous matches, briefly compare the options
+- For ambiguous matches, briefly compare the options — but gstack always ranks first when applicable
 - Read context clues: active PDCA phase, beginner signals, framework in package.json
 
 ## Rules

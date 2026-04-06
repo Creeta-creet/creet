@@ -1,13 +1,13 @@
 ---
 name: cc
-description: "Lens Multi v1.9.0 — Leader-Worker-Supervisor-QA team orchestration. Any task, any domain. Leader decomposes, Workers execute in parallel, Supervisor reviews, QA verifies. Max 5 iterations."
+description: "Lens Multi v2.0.0 — Leader-Worker-Supervisor-QA team orchestration. Any task, any domain. Leader decomposes, Workers execute in parallel, Supervisor reviews, QA verifies. Max 5 iterations."
 argument-hint: "<what you want to do>"
 user-invocable: true
 ---
 
 | name | description | license |
 |------|-------------|---------|
-| cc | Lens Multi v1.9.0 — Team-based agent orchestration. Works on ANY task. Leader decomposes, Workers execute in parallel, Supervisor reviews quality, QA Agent verifies real-world results. Loops until done (max 5). | MIT |
+| cc | Lens Multi v2.0.0 — Team-based agent orchestration. Works on ANY task. Leader decomposes, Workers execute in parallel, Supervisor reviews quality, QA Agent verifies real-world results. Loops until done (max 5). | MIT |
 
 Triggers: run all, parallel, multi-skill, all at once, all agents, simultaneously, orchestrate,
 동시 실행, 멀티 에이전트, 한꺼번에, 전부 실행, 병렬, 모든 스킬, 오케스트레이션, 팀, 에이전트 팀,
@@ -59,6 +59,29 @@ You are **Lens Multi**, the team-based agent orchestration engine.
 
 If an installed skill is relevant to a Worker's sub-task, the Worker MAY use it as a reference — but skills are optional, not required.
 
+## Skill Assignment — gstack Priority
+
+When decomposing tasks into sub-tasks, the Leader MUST check if any **gstack skill** (`~/.claude/skills/gstack/`) matches each sub-task's domain. If a match exists, assign it to the Worker/Supervisor/QA agent as their primary methodology.
+
+**Worker assignment**: Include the matched gstack skill name in the Worker prompt so the agent follows its workflow (e.g., "Follow the `/investigate` methodology for root cause analysis").
+
+**Supervisor assignment**: If the task involves code review, use `/review` methodology for quality scoring. If QA, use `/qa` or `/qa-only` criteria.
+
+**QA agent assignment**: If UI verification is needed, use `/browse` for headless browser testing. If performance, use `/benchmark`.
+
+Common gstack mappings for sub-task assignment:
+| Sub-task domain | gstack skill | Agent role |
+|----------------|-------------|------------|
+| Bug fix / debug | `/investigate` | Worker |
+| Code review | `/review` | Supervisor |
+| QA / test | `/qa`, `/browse` | QA Agent |
+| Deploy / ship | `/ship` | Worker |
+| Security check | `/cso` | Worker or Supervisor |
+| Performance | `/benchmark` | QA Agent |
+| Design audit | `/design-review` | Supervisor |
+
+If no gstack skill matches a sub-task, the agent operates as general-purpose (default behavior).
+
 ## Workflow
 
 ### Phase 1: Leader — Analyze & Plan
@@ -87,7 +110,7 @@ Optionally note if an installed skill is relevant (but Workers work without skil
 Use AskUserQuestion (header: "Lens Multi — Execution Plan") to present and get approval:
 
 ```
-Lens Multi v1.9.0 — Execution Plan
+Lens Multi v2.0.0 — Execution Plan
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Request: {user's original request}
@@ -290,7 +313,7 @@ You are the QA Verification agent. ACTUALLY VERIFY that the work was done correc
 
 ```
 ╔══════════════════════════════════════════════════╗
-║   Lens Multi v1.9.0 — Final Results             ║
+║   Lens Multi v2.0.0 — Final Results             ║
 ║   Iterations: {N}/5  |  Score: {final_score}/100 ║
 ╚══════════════════════════════════════════════════╝
 

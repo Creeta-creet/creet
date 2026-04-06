@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.0.0] - 2026-04-06
+
+### Added (v2.0.0)
+
+- **gstack skill priority matching** — `/c` now prioritizes gstack skills over other plugins when matching user requests. 12 common mappings (QA→/qa, debug→/investigate, review→/review, etc.)
+- **Agent skill assignment** — `/cc` Leader assigns gstack skills to Workers, Supervisors, and QA agents based on sub-task domain. Mapping table for Worker/Supervisor/QA roles
+- **Recommended Skills table in plans** — `/cp` generates a skill-to-step mapping table in every planning document, showing which gstack skill matches each step
+
+### Changed (v2.0.0)
+
+- `/c` Matching Rules section expanded with gstack priority rule
+- `/cc` Core Principle section expanded with "Skill Assignment — gstack Priority" subsection
+- `/cp` Technical Approach section expanded with "Recommended Skills" subsection
+- Version bump: 1.9.0 → 2.0.0 (MAJOR — core matching logic change)
+
 ## [1.9.0] - 2026-03-31
 
 ### Changed (v1.9.0)

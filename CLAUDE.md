@@ -4,8 +4,8 @@ Scans all installed plugins (Skills, MCP tools, LSP servers), recommends the bes
 
 ## Version
 
-- Current: **v1.9.0**
-- Updated: 2026-04-01
+- Current: **v2.0.0**
+- Updated: 2026-04-06
 - Source of truth: `.claude-plugin/plugin.json`
 
 ## Skills
@@ -122,6 +122,7 @@ EN, KO, JA, ZH, ES, FR, DE, IT (8 languages)
 
 ## Recent Changes
 
+- **v2.0.0** (2026-04-06): gstack integration — /c gstack 우선 매칭, /cc 에이전트별 스킬 할당, /cp 계획서에 추천 스킬 테이블
 - **v1.9.0** (2026-04-01): Leader-Worker-Supervisor-QA orchestration for /cc, legacy Creet cleanup, version unification
 - **v1.8.0** (2026-03-23): Creet → Lens complete rebranding — storage paths `.creet/` → `.lens/`, schema, GitHub repo, marketplace
 - **v1.7.1** (2026-03-02): Quality fixes — path consistency, cancelled status, 8-lang headers, YAML parser, JSON safety
