@@ -30,32 +30,12 @@ function main() {
     const dashboard = endSession(sessionStatus);
     const summary = dashboard.summary;
 
-    // Log final state
-    const response = {
-      hookSpecificOutput: {
-        hookEventName: 'Stop',
-        sessionId: dashboard.session.id,
-        sessionStatus: dashboard.session.status,
-        stopReason,
-        finalSummary: {
-          total: summary.total,
-          done: summary.done,
-          error: summary.error,
-          sessionDuration: calculateDuration(dashboard.session.startedAt, dashboard.session.endedAt),
-        },
-        dashboardPath: getDashboardPath(),
-      },
-    };
-
-    console.log(JSON.stringify(response));
+    // Stop hook does not support hookSpecificOutput in Claude Code schema
+    // Dashboard is already saved by endSession() above
+    console.log(JSON.stringify({}));
     process.exit(0);
   } catch (err) {
-    console.log(JSON.stringify({
-      hookSpecificOutput: {
-        hookEventName: 'Stop',
-        error: err.message,
-      },
-    }));
+    console.log(JSON.stringify({}));
     process.exit(0);
   }
 }
