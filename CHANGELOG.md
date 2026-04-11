@@ -1,5 +1,35 @@
 # Changelog
 
+## [3.0.0] - 2026-04-11
+
+### Added (v3.0.0)
+
+- **`/c` v3.0 — Sequential task execution engine** — Complete rewrite from skill navigator to full execution engine. 6-phase workflow: Leader analyzes → Approval → Worker (sequential) → Supervisor → QA → Report. `skills/c/SKILL.md`
+- **`/cc` v3.0 — Parallel task execution engine** — Complete rewrite with unified architecture. Same 6-phase workflow as /c, but Phase 3 deploys N workers in parallel. `skills/cc/SKILL.md`
+- **`/cp` v3.0 — Documentation management engine** — Auto-detects mode: plan tasks, record completions, organize project docs. Three modes: Plan (task description given), Done (no args + completed tasks), Organize (no args + messy docs). `skills/cp/SKILL.md`
+- **Model assignment system** — Workers assigned haiku/sonnet/opus based on task difficulty. Leader uses current model, Supervisor uses sonnet, QA and Monitor use haiku
+- **Monitor agent** — Background haiku agent reports progress every 5 minutes during execution. Auto-terminates when all workers complete
+- **Task approval system** — Mandatory AskUserQuestion before any execution showing task table with assigned skills, models, and difficulty levels
+- **docs/ document structure** — New project-wide documentation convention: `docs/tasks/` (active work), `docs/history/` (completed records), `docs/rules/` (project rules). Folder location = status
+- **TodoWrite integration** — All /c and /cc executions create and update TodoWrite entries for real-time progress tracking
+- **Worker skill reporting** — Leader reports which gstack/installed skill is assigned to each worker before execution starts
+
+### Changed (v3.0.0)
+
+- **`/c` completely rewritten** — From 82-line skill navigator to 600-line sequential execution engine with Supervisor/QA pipeline
+- **`/cc` completely rewritten** — From 368-line orchestration to 627-line parallel execution engine with unified architecture matching /c
+- **`/cp` completely rewritten** — From 208-line planning tool to 378-line documentation management engine with auto mode detection
+- **CLAUDE.md slimmed** — Removed Release Checklist (55 lines), Publishing section, Recent Changes. Added fixed pointers to docs/tasks/, docs/history/, docs/rules/. 213 → 128 lines
+- **docs/ restructured** — DOCUMENTATION-GUIDE, DOCUMENT-CONVENTIONS, RELEASE-GUIDE, PUBLISHING-GUIDE moved to `docs/rules/`. Analysis reports and work plans moved to `docs/history/`. New `docs/tasks/` for active work
+- **Version strings** — All 9 locations bumped from v2.0.0 to v3.0.0
+
+### Removed (v3.0.0)
+
+- **`/c` skill navigator mode** — Replaced by full execution engine (skill inventory still available with `/c` no args)
+- **`.lens/results/` save path** — Replaced by `docs/` structure
+- **CreetaDocs/ folder** — Replaced by `docs/tasks/` for /cp output
+- **CLAUDE.md bloat** — Release checklist, publishing guide, change log sections removed (moved to docs/rules/ or CHANGELOG.md)
+
 ## [2.0.0] - 2026-04-06
 
 ### Added (v2.0.0)
