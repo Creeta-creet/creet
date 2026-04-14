@@ -1,34 +1,32 @@
 #!/bin/bash
-# Lens Upgrade — 마켓플레이스 동기화 + 캐시 삭제 + 재설치
-# Usage: bash upgrade.sh
+# Lens Upgrade — thin wrapper around upgrade.py (one-stop safe upgrade)
+#
+# Delegates to scripts/upgrade.py for the real logic (Python stdlib only).
+# Usage:
+#   bash upgrade.sh                  # upgrade to latest
+#   bash upgrade.sh --dry-run        # preview actions
+#   bash upgrade.sh --yes            # skip confirmations
+#   bash upgrade.sh --version v2.0.0 # pin a version
+#
+# Exit codes: see upgrade.py header.
 
 set -e
 
-MARKETPLACE_DIR="$HOME/.claude/plugins/marketplaces/CreetaCorp"
-CACHE_DIR="$HOME/.claude/plugins/cache/CreetaCorp/lens"
-REPO_URL="https://github.com/livevil7/creeta-lens.git"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PY_SCRIPT="$SCRIPT_DIR/upgrade.py"
 
-echo "=== Lens Upgrade ==="
-
-# 1. 마켓플레이스 업데이트
-if [ -d "$MARKETPLACE_DIR" ]; then
-  echo "[1/3] Updating marketplace..."
-  cd "$MARKETPLACE_DIR"
-  git remote set-url origin "$REPO_URL" 2>/dev/null
-  git fetch origin && git reset --hard origin/master
-else
-  echo "[1/3] Cloning marketplace..."
-  git clone "$REPO_URL" "$MARKETPLACE_DIR"
+if [ ! -f "$PY_SCRIPT" ]; then
+  echo "ERROR: upgrade.py not found at $PY_SCRIPT" >&2
+  exit 1
 fi
 
-# 2. 캐시 삭제
-echo "[2/3] Clearing cache..."
-rm -rf "$CACHE_DIR"
+if command -v python3 >/dev/null 2>&1; then
+  PY=python3
+elif command -v python >/dev/null 2>&1; then
+  PY=python
+else
+  echo "ERROR: Python 3 is required but not found in PATH." >&2
+  exit 1
+fi
 
-# 3. 재설치
-echo "[3/3] Installing..."
-claude plugin install lens@CreetaCorp
-
-echo ""
-echo "=== Done ==="
-claude plugin list 2>&1 | grep -A3 "lens"
+exec "$PY" "$PY_SCRIPT" "$@"
